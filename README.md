@@ -1,0 +1,1 @@
+This is the repo where I will share most of my school projects, since they are simple, I will not be creating a repo for all of them. Some of them, mainly my personal projects will still get a repo though.
