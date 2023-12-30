@@ -1,3 +1,4 @@
+
 #include <iostream>
 
 using namespace std;
@@ -35,16 +36,39 @@ char arena_p2[10][10]{
         {'~', '~', '~', '~', '~', 'O', '~', '~', '~', '~'},
         {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'}
     };
-
+    char shot_p1[10][10]{
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'}
+    };
+    char shot_p2[10][10]{
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'},
+        {'~', '~', '~', '~', '~', '~', '~', '~', '~', '~'}
+    };
 
 void visualise(char x[10][10]){
-    cout << "\033[1;37m";
+    cout << "\033[1;37m"<<endl;
     cout << "   A B C D E F G H I J";
-    
+
     for(int i = 0; i<10; i++){
         if(i+1 <10){
             cout << "\033[0;37m";
-            cout<<endl<<"0"<<i+1<<" "; 
+            cout<<endl<<"0"<<i+1<<" ";
             cout << "\033[1;34m";
         }
         else{
@@ -58,6 +82,63 @@ void visualise(char x[10][10]){
             }
              cout<<x[i][j]<<" ";
              cout << "\033[1;34m";
+        }
+    }
+    cout << "\033[0;37m";
+};
+
+void action(int turn, int player_id){
+    char move, visualisator;
+    int endturn = 0;
+
+    while (endturn!= 1){
+        cout<<endl<<"what is your move player "<<player_id<<" : ";
+        cin>>move;
+        switch (move){
+
+            case 'v':
+                cout <<endl << "what do you want to visualise ?"<<endl;
+                cout <<"Do you wan to visualise the arena, or the shooting range ?" <<endl;
+                cout<<"a for arena s for shooting range"<<endl;
+                cout <<endl <<"visualise : ";
+                cin >>visualisator;
+
+                if (player_id==1){
+
+                    switch (visualisator){
+
+                        case 'a':
+                            visualise(arena_p1);
+                            break;
+                        case 's':
+                            visualise(shot_p1);
+                            break;
+                        default:
+                            cout<<"that's not it"<<endl;
+                    }
+                }
+
+                if (player_id==2){
+
+                    switch (visualisator){
+
+                        case 'a':
+                            visualise(arena_p1);
+                            break;
+                        case 's':
+                            visualise(shot_p1);
+                            break;
+                        default:
+                            cout<<"that's not it"<<endl;
+                    }
+                }
+
+                break;
+
+            case 'h':
+                cout<<"commands that you can do are :"<<endl<<"h for help(that's where you are now)"<<endl<<"v for visualise (visualises your arena or shootuing range)"<<endl<<"and s for shoot"<<endl;
+            default:
+                cout<<endl<<"that is not a command, try typing h, if you dont know what to do"<<endl;
         }
     }
 };
