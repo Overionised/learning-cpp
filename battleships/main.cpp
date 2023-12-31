@@ -3,6 +3,7 @@
 #include <time.h>
 #include <cstdlib>
 #include <stdlib.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ using namespace std;
 
 int main()
 {
-    char firstinput, move;
+    char firstinput, move, coordinates, rules;
     int playercount, win, player_id;
     int turn=0;
 
@@ -44,6 +45,9 @@ int main()
     }
 
     if (playercount==2){
+        cout <<endl <<"there are unfortunatelly two versions  of the rules"<<endl;
+        cout <<"do you want the rules to be, that after a hit you get another turn(y), or not (n)"<<endl;
+        cin >> rules;
 
         while(win != 1){
             system("cls");
@@ -54,12 +58,12 @@ int main()
 
             if (turn %2 == 1){
                 player_id = 1;
-                action(turn, player_id);
+                action(turn, player_id, rules);
             }
             if (turn%2==0){
                 player_id = 2;
 
-                action(turn, player_id);
+                action(turn, player_id, rules);
             }
         }
     }
