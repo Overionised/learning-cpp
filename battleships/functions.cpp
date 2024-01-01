@@ -93,118 +93,315 @@ void visualise(char x[10][10]){
     }
     cout <<endl <<"\033[0;37m" <<" 0 1 2 3 4 5 6 7 8 9 10 ► x"<<flush;
 };
-void sank(char arena[10][10],int y,int x, char check_for){
+void sank(char arena[10][10],int y,int x, char check_for, bool drowning){
+    bool killcount = 0;
+
     if (!(x == 1 || x == 10) && !(y == 1 || y == 10)){
-         if ((arena[10 - (y + 1)][x - 1] != check_for) &&
-            (arena[10 - (y - 1)][x - 1] != check_for) &&
-            (arena[10 - y][(x + 1) - 1] != check_for) &&
-            (arena[10 - y][(x - 1) - 1] != check_for)) {
-                if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+         if (arena[10 - (y + 1)][x - 1] == check_for){
+               if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y + 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+        }
+         if (arena[10 - (y - 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                        drowning=1;
+                    }
+                    if (check_for == '@'){
+                    sank(arena, y - 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+        }
+         if (arena[10 - y][(x + 1) - 1] == check_for){
+                if (check_for == 'O'){
+                        drowning=1;
+                    }
+                    if (check_for == '@'){
+                    sank(arena, y, x + 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+        }
+         if (arena[10 - y][(x - 1) - 1] == check_for) {
+                if (check_for == 'O'){
+                        drowning=1;
+                    }
+                    if (check_for == '@'){
+                    sank(arena, y, x - 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
         }
     }
+
+    ///// CORNER CHECKS //////////////////////////////////
     else{
         if (x == 1 && y == 1){
-            if  ((arena[10 - (y + 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x + 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y + 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y + 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x + 1) - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x + 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
         else if (x==1 && y == 10){
-            if  ((arena[10 - (y - 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x + 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y - 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y - 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+             if (arena[10 - y][(x + 1) - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x + 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
 
         else if (x == 10 && y == 1){
-            if  ((arena[10 - (y + 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x - 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y + 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y + 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+             if (arena[10 - y][(x - 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x - 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
         else if (x == 10 && y == 10){
-            if  ((arena[10 - (y - 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x - 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y - 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y - 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x - 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x - 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
         else if (x == 1){
-            if  ((arena[10 - (y + 1)][x - 1] != check_for) &&
-                (arena[10 - (y - 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x + 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y + 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y + 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - (y - 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y - 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x + 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x + 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
 
         else if (x == 10){
-            if  ((arena[10 - (y + 1)][x - 1] != check_for) &&
-                (arena[10 - (y - 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x - 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y + 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y + 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if (arena[10 - (y - 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y - 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+                }
+            if  (arena[10 - y][(x - 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x - 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
         else if (y==1){
-            if  ((arena[10 - (y + 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x + 1) - 1] != check_for) &&
-                (arena[10 - y][(x - 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y + 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y + 1, x, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x + 1) - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x + 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x - 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x - 1, 'O', drowning);
+                    if (killcount ==1){
+                        return;
+                    }
+                }
             }
         }
         else if (y==10){
-            if ((arena[10 - (y - 1)][x - 1] != check_for) &&
-                (arena[10 - y][(x + 1) - 1] != check_for) &&
-                (arena[10 - y][(x - 1) - 1] != check_for)){
-                    if (check_for == 'O'){
-                        cout << "there aren't any non-broken ships next to this wreck" << endl;
+            if  (arena[10 - (y - 1)][x - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
                     }
+                if (check_for == '@'){
+                    sank(arena, y - 1, x, 'O', drowning);
+                    if (killcount ==1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x + 1) - 1] == check_for){
+                if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x + 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
+            }
+            if  (arena[10 - y][(x - 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                       drowning=1;
+                    }
+                if (check_for == '@'){
+                    sank(arena, y, x - 1, 'O', drowning);
+                    if (killcount == 1){
+                        return;
+                    }
+                }
             }
         }
-        /*else{
-            if (!(x == 1 || x == 10) && !(y == 1 || y == 10)){
-                if (arena[10 - (y + 1)][x - 1] == '@'){
-                    sank(arena, y + 1, x - 1, 'O');
-                }
-                if(arena[10 - (y - 1)][x - 1] == '@'){
-                    sank(arena, y-1, x-1, 'O');
-                }
-                if(arena[10 - y][(x + 1) - 1] == '@'){
-                    sank(arena, y, x + 1, 'O');
-                }
-                if (arena[10 - y][(x - 1) - 1] == '@'){
-                    sank(arena, y, x - 1, 'O');
-                }
-            }
-            else{
-                if (x == 1 && y == 1){
-                    if  (arena[10 - (y + 1)][x - 1] == '@'){
 
-                    }
-                    if  (arena[10 - y][(x + 1) - 1] != check_for){
+    }
+    if ( drowning == 1 ){
+        cout <<"not sunk"<<endl;  // quit function
+        killcount = 1;
+        return;
+    }
+    else if ( drowning == 0 ){
+        if (check_for == '@'){
+            cout<< "sunk" <<endl;
+        }
+        else if (check_for != '@'){
+            sank(arena, y, x, '@', drowning);
+        }
 
-                    }
-                }
-            }
-        } */
     }
 };
 
-void shoot(int player_id, int rules){
+void shoot(int player_id, char rules){
     int coordinate_x, coordinate_y;
     if(player_id==1){
         visualise(shot_p1);
@@ -224,7 +421,7 @@ void shoot(int player_id, int rules){
             shot_p1[10 -coordinate_y][coordinate_x -1]='@';
             arena_p2[10 -coordinate_y][coordinate_x -1]='@';
             cout<<"HIT!!!"<<endl;
-            sank(arena_p2, coordinate_y, coordinate_x, 'O');
+            sank(arena_p2, coordinate_y, coordinate_x, 'O', 0);
             cout << "\033[1;37m";
             visualise(shot_p1);
             sleep(3);
@@ -249,7 +446,7 @@ void shoot(int player_id, int rules){
             shot_p2[10 -coordinate_y][coordinate_x -1]='@';
             arena_p1[10 -coordinate_y][coordinate_x -1]='@';
             cout<<"HIT!!!";
-            sank(arena_p1, coordinate_y, coordinate_x, 'O');
+            sank(arena_p1, coordinate_y, coordinate_x, 'O', 0);
             cout << "\033[1;37m";
             visualise(shot_p2);
             sleep(3);
