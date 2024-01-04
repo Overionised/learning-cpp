@@ -5,7 +5,7 @@
 using namespace std;
 
 void logo() {
-    std::cout << "__________    ___________________________.____     ___________ _________ ___ ___ ._____________  _________\n"
+         cout << "__________    ___________________________.____     ___________ _________ ___ ___ ._____________  _________\n"
                  "\\______   \\  /  _  \\__    ___/\\__    ___/|    |    \\_   _____//   _____//   |   \\|   \\______   \\/   _____/\n"
                  " |    |  _/ /  /_\\  \\|    |     |    |   |    |     |    __)_ \\_____  \\/    ~    \\   ||     ___/\\_____  \\\n"
                  " |    |   \\/    |    \\    |     |    |   |    |___  |        \\/        \\    Y    /   ||    |    /        \\\n"
@@ -93,313 +93,255 @@ void visualise(char x[10][10]){
     }
     cout <<endl <<"\033[0;37m" <<" 0 1 2 3 4 5 6 7 8 9 10 ► x"<<flush;
 };
-void sank(char arena[10][10],int y,int x, char check_for, bool drowning){
-    bool killcount = 0;
-
-    if (!(x == 1 || x == 10) && !(y == 1 || y == 10)){
-         if (arena[10 - (y + 1)][x - 1] == check_for){
-               if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y + 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-        }
-         if (arena[10 - (y - 1)][x - 1] == check_for){
+void sank(char arena[10][10],int y,int x, char check_for, bool drowning, int cyclecount){
+    if (drowning != 1 && cyclecount < 21){
+        if (!(x == 1 || x == 10) && !(y == 1 || y == 10)){
+            if (arena[10 - (y + 1)][x - 1] == check_for){
                 if (check_for == 'O'){
                         drowning=1;
-                    }
+                        }
                     if (check_for == '@'){
-                    sank(arena, y - 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
+                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
                     }
-                }
-        }
-         if (arena[10 - y][(x + 1) - 1] == check_for){
-                if (check_for == 'O'){
-                        drowning=1;
-                    }
-                    if (check_for == '@'){
-                    sank(arena, y, x + 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-        }
-         if (arena[10 - y][(x - 1) - 1] == check_for) {
-                if (check_for == 'O'){
-                        drowning=1;
-                    }
-                    if (check_for == '@'){
-                    sank(arena, y, x - 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-        }
-    }
-
-    ///// CORNER CHECKS //////////////////////////////////
-    else{
-        if (x == 1 && y == 1){
-            if  (arena[10 - (y + 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y + 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x + 1) - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x + 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-        }
-        else if (x==1 && y == 10){
-            if  (arena[10 - (y - 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y - 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-             if (arena[10 - y][(x + 1) - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x + 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-        }
-
-        else if (x == 10 && y == 1){
-            if  (arena[10 - (y + 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y + 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-             if (arena[10 - y][(x - 1) - 1] == check_for){
-                    if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x - 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-        }
-        else if (x == 10 && y == 10){
-            if  (arena[10 - (y - 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y - 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x - 1) - 1] == check_for){
-                    if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x - 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-        }
-        else if (x == 1){
-            if  (arena[10 - (y + 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y + 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - (y - 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y - 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x + 1) - 1] == check_for){
-                    if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x + 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-        }
-
-        else if (x == 10){
-            if  (arena[10 - (y + 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y + 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
             }
             if (arena[10 - (y - 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y - 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-                }
-            if  (arena[10 - y][(x - 1) - 1] == check_for){
                     if (check_for == 'O'){
-                       drowning=1;
+                            drowning=1;
+                        }
+                        if (check_for == '@'){
+                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
                     }
-                if (check_for == '@'){
-                    sank(arena, y, x - 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
             }
-        }
-        else if (y==1){
-            if  (arena[10 - (y + 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y + 1, x, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x + 1) - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x + 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x - 1) - 1] == check_for){
+            if (arena[10 - y][(x + 1) - 1] == check_for){
                     if (check_for == 'O'){
-                       drowning=1;
+                            drowning=1;
+                        }
+                        if (check_for == '@'){
+                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
                     }
-                if (check_for == '@'){
-                    sank(arena, y, x - 1, 'O', drowning);
-                    if (killcount ==1){
-                        return;
-                    }
-                }
             }
-        }
-        else if (y==10){
-            if  (arena[10 - (y - 1)][x - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y - 1, x, 'O', drowning);
-                    if (killcount ==1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x + 1) - 1] == check_for){
-                if (check_for == 'O'){
-                       drowning=1;
-                    }
-                if (check_for == '@'){
-                    sank(arena, y, x + 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
-            }
-            if  (arena[10 - y][(x - 1) - 1] == check_for){
+            if (arena[10 - y][(x - 1) - 1] == check_for) {
                     if (check_for == 'O'){
-                       drowning=1;
+                            drowning=1;
+                        }
+                        if (check_for == '@'){
+                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
                     }
-                if (check_for == '@'){
-                    sank(arena, y, x - 1, 'O', drowning);
-                    if (killcount == 1){
-                        return;
-                    }
-                }
             }
         }
 
-    }
-    if ( drowning == 1 ){
-        cout <<"not sunk"<<endl;  // quit function
-        killcount = 1;
-        return;
-    }
-    else if ( drowning == 0 ){
-        if (check_for == '@'){
-            cout<< "sunk" <<endl;
-        }
-        else if (check_for != '@'){
-            sank(arena, y, x, '@', drowning);
-        }
+        ///// CORNER CHECKS //////////////////////////////////
+        else{
+            if (x == 1 && y == 1){
+                if  (arena[10 - (y + 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if  (arena[10 - y][(x + 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                    }
+                }
+            }
+            else if (x==1 && y == 10){
+                if  (arena[10 - (y - 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if (arena[10 - y][(x + 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
 
+                    }
+                }
+            }
+
+            else if (x == 10 && y == 1){
+                if  (arena[10 - (y + 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if (arena[10 - y][(x - 1) - 1] == check_for){
+                        if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                    }
+                }
+            }
+            else if (x == 10 && y == 10){
+                if  (arena[10 - (y - 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+
+                    }
+                }
+                if  (arena[10 - y][(x - 1) - 1] == check_for){
+                        if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                    }
+                }
+            }
+            else if (x == 1){
+                if  (arena[10 - (y + 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if  (arena[10 - (y - 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if  (arena[10 - y][(x + 1) - 1] == check_for){
+                        if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+
+                    }
+                }
+            }
+
+            else if (x == 10){
+                if  (arena[10 - (y + 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if (arena[10 - (y - 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                        }
+                    }
+                if  (arena[10 - y][(x - 1) - 1] == check_for){
+                        if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                    }
+                }
+            }
+            else if (y==1){
+                if  (arena[10 - (y + 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+
+                    }
+                }
+                if  (arena[10 - y][(x + 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                    }
+                }
+                if  (arena[10 - y][(x - 1) - 1] == check_for){
+                        if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                    }
+                }
+            }
+            else if (y==10){
+                if  (arena[10 - (y - 1)][x - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                    }
+                }
+                if  (arena[10 - y][(x + 1) - 1] == check_for){
+                    if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                    }
+                }
+                if  (arena[10 - y][(x - 1) - 1] == check_for){
+                        if (check_for == 'O'){
+                        drowning=1;
+                        }
+                    if (check_for == '@'){
+                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                    }
+                }
+            }
+
+        }
+        ////IMPORTANT/////////////////////////////////////////
+        if ( drowning == 1 ){
+            cout <<"not sunk"<<cyclecount<<endl;  // quit function
+        }
+        else if ( drowning == 0 ){
+            if (check_for == '@'){
+                if (1==1){
+                    cout<< "sunk" ;
+                    cout <<cyclecount<<endl;
+                }
+            }
+            else if (check_for != '@'){
+                cout << "checking for @ for the "<< cyclecount+1<< "th time" <<endl;
+                cyclecount++;
+                if (cyclecount <= 20){
+                    sank(arena, y, x, '@', drowning, cyclecount);
+                    return;
+                }
+            }
+        }
     }
+    cyclecount = 0;
 };
+
+
+
 
 void shoot(int player_id, char rules){
     int coordinate_x, coordinate_y;
@@ -420,8 +362,8 @@ void shoot(int player_id, char rules){
             cout << "\033[1;31m";
             shot_p1[10 -coordinate_y][coordinate_x -1]='@';
             arena_p2[10 -coordinate_y][coordinate_x -1]='@';
-            cout<<"HIT!!!"<<endl;
-            sank(arena_p2, coordinate_y, coordinate_x, 'O', 0);
+            cout<<endl<<"HIT!!!"<<endl;
+            sank(arena_p2, coordinate_y, coordinate_x, 'O', 0, 0);
             cout << "\033[1;37m";
             visualise(shot_p1);
             sleep(3);
@@ -446,7 +388,7 @@ void shoot(int player_id, char rules){
             shot_p2[10 -coordinate_y][coordinate_x -1]='@';
             arena_p1[10 -coordinate_y][coordinate_x -1]='@';
             cout<<"HIT!!!";
-            sank(arena_p1, coordinate_y, coordinate_x, 'O', 0);
+            sank(arena_p1, coordinate_y, coordinate_x, 'O', 0, 0);
             cout << "\033[1;37m";
             visualise(shot_p2);
             sleep(3);
