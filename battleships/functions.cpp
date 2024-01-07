@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <tuple>
 
 using namespace std;
 
@@ -93,39 +94,51 @@ void visualise(char x[10][10]){
     }
     cout <<endl <<"\033[0;37m" <<" 0 1 2 3 4 5 6 7 8 9 10 ► x"<<flush;
 };
-void sank(char arena[10][10],int y,int x, char check_for, bool drowning, int cyclecount){
-    if (drowning != 1 && cyclecount < 21){
+
+tuple <bool, int, int, int, int, int, int, int, int> checker(char arena[10][10],int y,int x, char check_for){
+    bool found = 0;
+    int my_y1 = 11, my_y2 = 11, my_y3 = 11, my_y4 = 11;
+    int my_x1 = 11, my_x2 = 11, my_x3 = 11, my_x4 = 11;
+
         if (!(x == 1 || x == 10) && !(y == 1 || y == 10)){
             if (arena[10 - (y + 1)][x - 1] == check_for){
                 if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
-                    if (check_for == '@'){
-                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                else if (check_for == '@'){
+                        my_y1 = y + 1;
+                        my_x1 = x;
                     }
             }
             if (arena[10 - (y - 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                            drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
-                        if (check_for == '@'){
-                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                    else if (check_for == '@'){
+                        my_y2 = y - 1;
+                        my_x2 = x;
                     }
             }
             if (arena[10 - y][(x + 1) - 1] == check_for){
                     if (check_for == 'O'){
-                            drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
-                        if (check_for == '@'){
-                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                        else if (check_for == '@'){
+                        my_y3 = y;
+                        my_x3 = x + 1;
                     }
             }
             if (arena[10 - y][(x - 1) - 1] == check_for) {
                     if (check_for == 'O'){
-                            drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                         if (check_for == '@'){
-                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                        my_y4 = y;
+                        my_x4 = x - 1;
                     }
             }
         }
@@ -135,36 +148,44 @@ void sank(char arena[10][10],int y,int x, char check_for, bool drowning, int cyc
             if (x == 1 && y == 1){
                 if  (arena[10 - (y + 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                        my_y1 = y + 1;
+                        my_x1 = x;
                     }
                 }
                 if  (arena[10 - y][(x + 1) - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                        my_y3 = y;
+                        my_x3 = x + 1;
                     }
                 }
             }
             else if (x==1 && y == 10){
                 if  (arena[10 - (y - 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                        my_y2 = y - 1;
+                        my_x2 = x;
                     }
                 }
                 if (arena[10 - y][(x + 1) - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                        my_y3 = y;
+                        my_x3 = x + 1;
 
                     }
                 }
@@ -173,63 +194,77 @@ void sank(char arena[10][10],int y,int x, char check_for, bool drowning, int cyc
             else if (x == 10 && y == 1){
                 if  (arena[10 - (y + 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                        my_y1 = y + 1;
+                        my_x1 = x;
                     }
                 }
                 if (arena[10 - y][(x - 1) - 1] == check_for){
                         if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                        my_y4 = y;
+                        my_x4 = x - 1;
                     }
                 }
             }
             else if (x == 10 && y == 10){
                 if  (arena[10 - (y - 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                        my_y2 = y - 1;
+                        my_x2 = x;
 
                     }
                 }
                 if  (arena[10 - y][(x - 1) - 1] == check_for){
                         if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                        my_y4 = y;
+                        my_x4 = x - 1;
                     }
                 }
             }
             else if (x == 1){
                 if  (arena[10 - (y + 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                        my_y1 = y + 1;
+                        my_x1 = x;
                     }
                 }
                 if  (arena[10 - (y - 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                        my_y2 = y - 1;
+                        my_x2 = x;
                     }
                 }
                 if  (arena[10 - y][(x + 1) - 1] == check_for){
                         if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                        my_y3 = y;
+                        my_x3 = x + 1;
 
                     }
                 }
@@ -238,85 +273,141 @@ void sank(char arena[10][10],int y,int x, char check_for, bool drowning, int cyc
             else if (x == 10){
                 if  (arena[10 - (y + 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                        my_y1 = y + 1;
+                        my_x1 = x;
                     }
                 }
                 if (arena[10 - (y - 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                        my_y2 = y - 1;
+                        my_x2 = x;
                         }
                     }
                 if  (arena[10 - y][(x - 1) - 1] == check_for){
                         if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                        my_y4 = y;
+                        my_x4 = x - 1;
                     }
                 }
             }
             else if (y==1){
                 if  (arena[10 - (y + 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y + 1, x, 'O', drowning, cyclecount);
+                        my_y1 = y + 1;
+                        my_x1 = x;
 
                     }
                 }
                 if  (arena[10 - y][(x + 1) - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                        my_y3 = y;
+                        my_x3 = x + 1;
                     }
                 }
                 if  (arena[10 - y][(x - 1) - 1] == check_for){
                         if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                        my_y4 = y;
+                        my_x4 = x - 1;
                     }
                 }
             }
             else if (y==10){
                 if  (arena[10 - (y - 1)][x - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y - 1, x, 'O', drowning, cyclecount);
+                        my_y2 = y - 1;
+                        my_x2 = x;
                     }
                 }
                 if  (arena[10 - y][(x + 1) - 1] == check_for){
                     if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x + 1, 'O', drowning, cyclecount);
+                        my_y3 = y;
+                        my_x3 = x + 1;
                     }
                 }
                 if  (arena[10 - y][(x - 1) - 1] == check_for){
                         if (check_for == 'O'){
-                        drowning=1;
+                        found = 1;
+                        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
                         }
                     if (check_for == '@'){
-                        sank(arena, y, x - 1, 'O', drowning, cyclecount);
+                        my_y4 = y;
+                        my_x4 = x - 1;
                     }
                 }
             }
 
         }
-        ////IMPORTANT/////////////////////////////////////////
+        return make_tuple(found, my_y1, my_y2, my_y3, my_y4, my_x1, my_x2, my_x3, my_x4);
+};
+
+void sank(char arena[10][10],int y,int x, int cycle){
+    tuple <bool, int, int, int, int, int, int, int, int> check_res;
+    bool itsunk=0;
+
+    check_res = checker(arena, y, x, 'O');
+
+    while (cycle <2){
+        if ( get<0>(check_res) == 1 ){
+            cout <<"not sunk"<< cycle<<endl;
+            itsunk=1;
+            return;
+        }
+        else{
+            if ( get<1>(check_res) != 11 ){
+                sank ( arena, get<1>(check_res), get<5>(check_res), cycle);
+            }
+            if ( get<2>(check_res) != 11 ){
+                sank ( arena, get<2>(check_res), get<6>(check_res), cycle);
+            }
+            if ( get<3>(check_res) != 11 ){
+                sank( arena, get<3>(check_res), get<7>(check_res), cycle);
+            }
+            if ( get<4>(check_res) != 11 ){
+                sank( arena, get<4>(check_res), get<8>(check_res), cycle);
+            }
+            else{
+                check_res = checker( arena, y, x, '@');
+                cycle++;
+                if (get<0>(check_res) == 0 && cycle == 2 && itsunk != 1){
+                    cout <<"sunk"<< cycle<<endl;
+                    cout<<get<1>(check_res)<<endl;
+                }
+            }
+        }
+    }
+/*
         if ( drowning == 1 ){
             cout <<"not sunk"<<cyclecount<<endl;  // quit function
         }
@@ -336,12 +427,9 @@ void sank(char arena[10][10],int y,int x, char check_for, bool drowning, int cyc
                 }
             }
         }
-    }
     cyclecount = 0;
+    */
 };
-
-
-
 
 void shoot(int player_id, char rules){
     int coordinate_x, coordinate_y;
@@ -363,7 +451,7 @@ void shoot(int player_id, char rules){
             shot_p1[10 -coordinate_y][coordinate_x -1]='@';
             arena_p2[10 -coordinate_y][coordinate_x -1]='@';
             cout<<endl<<"HIT!!!"<<endl;
-            sank(arena_p2, coordinate_y, coordinate_x, 'O', 0, 0);
+            sank(arena_p2, coordinate_y, coordinate_x, 0);
             cout << "\033[1;37m";
             visualise(shot_p1);
             sleep(3);
@@ -388,7 +476,7 @@ void shoot(int player_id, char rules){
             shot_p2[10 -coordinate_y][coordinate_x -1]='@';
             arena_p1[10 -coordinate_y][coordinate_x -1]='@';
             cout<<"HIT!!!";
-            sank(arena_p1, coordinate_y, coordinate_x, 'O', 0, 0);
+            sank(arena_p1, coordinate_y, coordinate_x, 0);
             cout << "\033[1;37m";
             visualise(shot_p2);
             sleep(3);
