@@ -2,14 +2,11 @@
 #include <unistd.h>
 #include "functions.cpp"
 
-using namespace std;
-
-int main()
-{
+int main(){
     bool player = true;
-    
-    while(true){
+	bool win = false;
+
+    while(win == false){
         player = shoot(player);
     }
-
 }
