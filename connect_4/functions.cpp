@@ -41,9 +41,8 @@ void visualise(char x[6][7]){
     }
     cout <<endl <<"\033[0;34m" <<"   1 2 3 4 5 6 7 ► x" <<"\033[0;37m"<<flush;
 };
-
-bool shoot( bool player){
-    int coordinatex, turn;
+int user_input (){
+    int coordinatex;
     bool valid_input = false;
 
     visualise(arena);
@@ -62,6 +61,9 @@ bool shoot( bool player){
     		cout <<endl <<"invalid input try again"<<endl;
     	}
     }
+    return coordinatex;
+}
+bool shoot( bool player, int coordinatex){
 
     for (int turn = 0 ; turn < 7 ; turn++){
         if (arena[6 - turn][coordinatex - 1] == 'x'){
