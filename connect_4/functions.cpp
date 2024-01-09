@@ -12,18 +12,10 @@ char arena[6][7]{
 
 void visualise(char x[6][7]){
     cout << "\033[1;34m"<<endl;
-    cout << " y"<<endl<<" ▲";
     for(int i = 0; i<6; i++){
-        if(i<1){
-            cout << "\033[1;34m";
-            cout << endl<<" "<< 6-i<<" ";
-            cout << "\033[1;37m";
-        }
-        else{
             cout << "\033[0;34m";
-            cout << endl<<" "<<6-i<<" ";
+            cout << endl<<"  |";
             cout << "\033[1;37m";
-        }
 
          for(int j = 0; j<7; j++){
             if(x[i][j] == 'O'){
@@ -32,22 +24,44 @@ void visualise(char x[6][7]){
             else if(x[i][j] == 'x'){
                 cout << "\033[0;37m";
             }
+ 
             else if(x[i][j] == '@'){
                 cout << "\033[1;33m";
             }
-             cout<<x[i][j]<<" ";
-             cout << "\033[1;34m";
+            if (j<=5){
+             	cout<<x[i][j]<<" ";
+             	cout << "\033[1;34m";
+            }
+            if (j == 6){
+            	cout<<x[i][j];
+            	cout << "\033[0;34m";
+            	cout <<"|";
+            }
         }
     }
-    cout <<endl <<"\033[0;34m" <<" 0 1 2 3 4 5 6 7 ► x"<<flush;
+    cout <<endl <<"\033[0;34m" <<"   1 2 3 4 5 6 7 ► x" <<"\033[0;37m"<<flush;
 };
 
 bool shoot( bool player){
-    int coordinatex, coordinatey, turn;
+    int coordinatex, turn;
+    bool valid_input = false;
+
     visualise(arena);
-    cout << endl<<" enter your coordinates :";
-    cin >> coordinatex;
-    
+    while (valid_input == false){
+    	cout << endl<<" enter your coordinates :";
+    	cin >> coordinatex;
+    	
+    	if (cin.fail()){
+     		cin.clear(); cin.ignore(512, '\n');
+		}
+		
+    	if ((coordinatex < 8) && (coordinatex != 0)){
+    		valid_input = true;
+    	}
+    	else {
+    		cout <<endl <<"invalid input try again"<<endl;
+    	}
+    }
 
     for (int turn = 0 ; turn < 7 ; turn++){
         if (arena[6 - turn][coordinatex - 1] == 'x'){
