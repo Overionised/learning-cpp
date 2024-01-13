@@ -79,16 +79,17 @@ void animate (bool player, int turn, int coordinate){
             arena[i - turn][coordinate - 1] =  'x';
     }
 }
-bool connected4 (int player, int coordinate, bool win){
+/* bool connected4 (int player, int coordinate, bool win){
     for (int turn = 0 ; turn < 7 ; turn++){
         for (int j = 0; j < 6; j++){
            if (arena[turn][j] == 'O'){
                // cout<<"found an O at "<< turn << " "<<j<<endl;
                // return win = true;
+               return win = false;
             }
         }
     }
-}
+} */
 bool shoot( bool player, int coordinatex){
 
     for (int turn = 0 ; turn < 7 ; turn++){
