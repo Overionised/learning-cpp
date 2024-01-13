@@ -11,6 +11,6 @@ int main(){
     while(win == false){
         coordinatex = user_input();
         player = shoot(player, coordinatex);
-        win = connected4(player, coordinatex, win);
+       // win = connected4(player, coordinatex, win);
     }
 }
