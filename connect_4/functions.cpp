@@ -90,7 +90,7 @@ int user_input (){
 
     visualise(arena);
     while (valid_input == false){
-        cout << endl<< playerToken<< " enter your coordinate :";
+        cout << endl<< "Player" << playerToken<< " enter your coordinate :";
         cin >> coordinatex;
 
         if (cin.fail()){
