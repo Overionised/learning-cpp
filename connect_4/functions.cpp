@@ -90,7 +90,7 @@ int user_input (){
 
     visualise(arena);
     while (valid_input == false){
-        cout << endl<<" enter your coordinate :";
+        cout << endl<< playerToken<< " enter your coordinate :";
         cin >> coordinatex;
 
         if (cin.fail()){
@@ -140,15 +140,13 @@ bool turnchange(bool player){
     if(player == true){
         player = false;
         playerToken = '@';
-        system("cls");
-        system("clear");
-        return player;
+
     }
     else if(player == false){
         player = true;
         playerToken = 'O';
+    }
         system("cls");
         system("clear");
         return player;
-    }
 };
