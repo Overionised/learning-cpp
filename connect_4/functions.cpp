@@ -1,5 +1,7 @@
 using namespace std;
 
+char playerToken = 'O';
+
 char arena[6][7]{
 //    0    1    2    3    4    5    6
     {'x', 'x', 'x', 'x', 'x', 'x', 'x'}, //0
@@ -10,6 +12,46 @@ char arena[6][7]{
     {'x', 'x', 'x', 'x', 'x', 'x', 'x'}  //5
 }; // 1    2    3    4    5    6    7
 
+
+bool connected4(char arena[6][7], char playerToken) {
+    // Check horizontal
+    for (int row = 0; row < 6; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (arena[row][col] == playerToken && arena[row][col + 1] == playerToken &&
+                arena[row][col + 2] == playerToken && arena[row][col + 3] == playerToken) {
+                return true;
+            }
+        }
+    }
+    // Check vertical
+    for (int col = 0; col < 7; col++) {
+        for (int row = 0; row < 3; row++) {
+            if (arena[row][col] == playerToken && arena[row + 1][col] == playerToken &&
+                arena[row + 2][col] == playerToken && arena[row + 3][col] == playerToken) {
+                return true;
+            }
+        }
+    }
+    // Check diagonal (top-left to bottom-right)
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (arena[row][col] == playerToken && arena[row + 1][col + 1] == playerToken &&
+                arena[row + 2][col + 2] == playerToken && arena[row + 3][col + 3] == playerToken) {
+                return true;
+            }
+        }
+    }
+    // Check diagonal (bottom-left to top-right)
+    for (int row = 3; row < 6; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (arena[row][col] == playerToken && arena[row - 1][col + 1] == playerToken &&
+                arena[row - 2][col + 2] == playerToken && arena[row - 3][col + 3] == playerToken) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 void visualise(char x[6][7]){
     cout << "\033[1;34m"<<endl;
@@ -79,18 +121,7 @@ void animate (bool player, int turn, int coordinate){
             arena[i - turn][coordinate - 1] =  'x';
     }
 }
-/* bool connected4 (int player, int coordinate, bool win){
-    for (int turn = 0 ; turn < 7 ; turn++){
-        for (int j = 0; j < 6; j++){
-           if (arena[turn][j] == 'O'){
-               // cout<<"found an O at "<< turn << " "<<j<<endl;
-               // return win = true;
-               return win = false;
-            }
-        }
-    }
-} */
-bool shoot( bool player, int coordinatex){
+void shoot( bool player, int coordinatex){
 
     for (int turn = 0 ; turn < 7 ; turn++){
         if (arena[6 - turn][coordinatex - 1] == 'x'){
@@ -104,14 +135,18 @@ bool shoot( bool player, int coordinatex){
             break;
         }
     }
+}
+bool turnchange(bool player){
     if(player == true){
         player = false;
+        playerToken = '@';
         system("cls");
         system("clear");
         return player;
     }
     else if(player == false){
         player = true;
+        playerToken = 'O';
         system("cls");
         system("clear");
         return player;
