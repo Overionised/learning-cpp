@@ -11,7 +11,7 @@ int main(){
     while(win == false){
         coordinatex = user_input();
         shoot(player, coordinatex);
-        win = connected4(arena, playerToken);
+        //win = connected4(arena, playerToken);
         
         if (win) {
             cout <<endl <<endl << "Player " << (playerToken) << " wins!" << endl <<flush;
