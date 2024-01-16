@@ -14,6 +14,7 @@ char arena[6][7]{
 
 
 bool connected4(char arena[6][7], char playerToken) {
+    bool stalemate = true;
     // Check horizontal
     for (int row = 0; row < 6; row++) {
         for (int col = 0; col < 4; col++) {
@@ -52,13 +53,18 @@ bool connected4(char arena[6][7], char playerToken) {
     }
     for (int row = 3; row < 6; row++) {
         for (int col = 0; col < 4; col++) {
-            if (arena [row][col] != 'x'){
-                cout<< endl << "stalemate";
-                return true;
+            if (arena [row][col] == 'x'){
+                stalemate = false;
             }
         }
     }
-    return false;
+    if (stalemate){
+        return false;
+    }
+    else (stalemate){
+        cout<<endl<< "stalemate"<<endl;
+        return true;
+    }
 }
 
 void visualise(char x[6][7]){
