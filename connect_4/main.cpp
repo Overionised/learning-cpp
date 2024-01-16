@@ -14,7 +14,7 @@ int main(){
         win = connected4(arena, playerToken);
         
         if (win) {
-            cout <<endl << "Player " << (playerToken) << " wins!" << endl <<flush;
+            cout <<endl <<endl << "Player " << (playerToken) << " wins!" << endl <<flush;
             break;
         }
         player = turnchange(player);
