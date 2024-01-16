@@ -58,7 +58,7 @@ bool connected4(char arena[6][7], char playerToken) {
             }
         }
     }
-    if (stalemate){
+    if (!stalemate){
         return false;
     }
     else {
