@@ -50,6 +50,14 @@ bool connected4(char arena[6][7], char playerToken) {
             }
         }
     }
+    for (int row = 3; row < 6; row++) {
+        for (int col = 0; col < 4; col++) {
+            if (arena [row][col] == 'x'){
+                cout<< endl << "stalemate";
+                return true;
+            }
+        }
+    }
     return false;
 }
 
