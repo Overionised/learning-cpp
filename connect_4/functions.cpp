@@ -61,7 +61,7 @@ bool connected4(char arena[6][7], char playerToken) {
     if (stalemate){
         return false;
     }
-    else (stalemate){
+    else {
         cout<<endl<< "stalemate"<<endl;
         return true;
     }
