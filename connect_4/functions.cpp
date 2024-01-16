@@ -13,7 +13,7 @@ char arena[6][7]{
 }; // 1    2    3    4    5    6    7
 
 
-bool connected4(char arena[6][7], char playerToken) {
+/*bool connected4(char arena[6][7], char playerToken) {
     bool stalemate = true;
     // Check horizontal
     for (int row = 0; row < 6; row++) {
@@ -65,7 +65,7 @@ bool connected4(char arena[6][7], char playerToken) {
         cout<<endl<< "stalemate"<<endl;
         return true;
     }
-}
+} */
 
 void visualise(char x[6][7]){
     cout << "\033[1;34m"<<endl;
