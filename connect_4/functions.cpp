@@ -151,4 +151,4 @@ bool turnchange(bool player){
         system("clear");
         return player;
     }
-}
+};
